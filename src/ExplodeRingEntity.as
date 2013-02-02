@@ -21,7 +21,7 @@ package
 			y = yPos;
 			for (var i:int = 0; i < 6; i++)
 			{
-				pieces.push(new RingPieceEntity(x, y, i, FP.random * 12));
+				pieces.push(new RingPieceEntity(x, y, i, FP.random * 12 ));
 			}
 		}
 		

@@ -100,7 +100,7 @@ package
 				
 					} else if (currentRing.lightCounter == -2) {
 						heart.ChangeLife(false);
-						round--;
+						
 						if (heart.lives == 0) {//|| round == 0){
 							//isGameOver = true;
 							state = 3;
