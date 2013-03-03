@@ -3,6 +3,7 @@ package
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
 	import net.flashpunk.graphics.Image;
+	import net.flashpunk.Sfx;
 	/**
 	 * ...
 	 * @author Nick Pettyjohn
@@ -10,6 +11,8 @@ package
 	public class RingEntity extends Entity
 	{
 		[Embed(source = '../assets/ring.png')] private const RING:Class;
+		[Embed(source = '../assets/sfx/heartbeat.mp3')] private const TIMER1SFX:Class;
+		
 
 		public var difficulty:Number = 3.0; // the range of seconds for each round
 		public var lightCounter:int;
@@ -27,6 +30,10 @@ package
 		private var isShrinking:Boolean = false;
 		private var minShrink:Number = 0;
 		
+		private var sfxcount:int = 0;
+		private var time1sfx:Sfx;
+		
+		
 		public function RingEntity(posX:Number, posY:Number, sc:Number, d:Number) 
 		{
 			x = posX;
@@ -40,16 +47,26 @@ package
 			}
 			
 			Image(graphic).scale = sc;
+			
+			time1sfx = new Sfx(TIMER1SFX);
 		}
 		
 		override public function update():void 
 		{
+			
+			
 			if (timer > 0) {
 				timer -= FP.elapsed;
 			} else if (lightCounter > -1) {
 				lights[lightCounter].Activate(currentColor);
 				lightCounter--;
 				timer = timeincrement;
+				
+				sfxcount += 1;
+				if(sfxcount == 12) {
+					time1sfx.play(1);
+					sfxcount = 0;
+				}
 			} else
 				lightCounter = -2;
 			

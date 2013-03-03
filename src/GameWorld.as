@@ -1,6 +1,8 @@
 package  
 {
+	import adobe.utils.CustomActions;
 	import net.flashpunk.graphics.Text;
+	import net.flashpunk.Sfx;
 	import net.flashpunk.World;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
@@ -20,6 +22,10 @@ package
 	  */
 	public class GameWorld extends World
 	{
+		[Embed(source = '../assets/sfx/heartbeat.mp3')] private const HEARTSFX:Class;
+		[Embed(source = '../assets/sfx/ring_explode.mp3')] private const EXPLODESFX:Class;
+		[Embed(source = '../assets/sfx/heart_expand.mp3')] private const EXPANDSFX:Class;
+		
 		private const Width:Number = 800;
 		private const Height:Number = 600;
 		
@@ -45,6 +51,13 @@ package
 		private var score:int = 0;
 		private var highscore:int = 1120;
 		
+		private var beatsfx:Sfx;
+		private var expandsfx:Sfx;
+		private var explodesfx:Sfx;
+		
+		//embed
+		// new sfx
+		
 		private var isGameOver:Boolean = false;
 		
 		//Game Title: Heart Arrhythmia
@@ -58,6 +71,10 @@ package
 			levelText = new TextEntity("Level: " + level, Width / 2, Height / 13, 22);
 			highScoreText = new TextEntity("High Score: " + highscore, Width / 15 + 45,  Height / 24, 22);
 			
+			
+			beatsfx = new Sfx(HEARTSFX);
+			expandsfx = new Sfx(EXPANDSFX);
+			explodesfx = new Sfx(EXPLODESFX);
 			
 			add(heart);
 			add(currentRing);
@@ -87,7 +104,10 @@ package
 				case(2): // regular game state
 					
 					// When the player presses at the time
-					if(Input.pressed(Key.SPACE) && currentRing.IsOnBeat()) {
+					if (Input.pressed(Key.SPACE) && currentRing.IsOnBeat()) {
+						
+						beatsfx.play(3);
+						
 						heart.Pulse();
 						round++;
 						if (round == 3) { // Level Increase!
@@ -146,6 +166,7 @@ package
 						explodeRing.ChangeScale(-.09);
 						remove(currentRing);
 						
+						
 					}
 					if (heart.state == 0) {
 						//nextRing.Shrink(false, .8);
@@ -156,6 +177,7 @@ package
 						currentRing.SetTimer();
 						remove(explodeRing);
 						heart.ActivateSwell(false);	
+						
 					}
 					break;
 			}
@@ -217,6 +239,7 @@ package
 			add(explodeRing);
 			add(nextRing);
 			add(transitionBlock);
+			explodesfx.play(1);
 		}
 		private function Grow():void 
 		{
@@ -232,6 +255,7 @@ package
 			add(transitionBlock);*/
 			//isGrowing = true;
 			state = 4;
+			expandsfx.play(5);
 		
 		}
 		
