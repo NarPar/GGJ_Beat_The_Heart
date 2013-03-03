@@ -85,6 +85,8 @@ package
 			switch(state)
 			{
 				case(2): // regular game state
+					
+					// When the player presses at the time
 					if(Input.pressed(Key.SPACE) && currentRing.IsOnBeat()) {
 						heart.Pulse();
 						round++;

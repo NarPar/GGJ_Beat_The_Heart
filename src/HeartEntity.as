@@ -1,4 +1,4 @@
-package  
+ package  
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.graphics.Spritemap;
